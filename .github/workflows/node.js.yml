@@ -28,8 +28,7 @@ jobs:
     runs-on: [aws-ece]
     steps:
       - name: Pull image from docker hub
-        run: docker pull younesseelyoussoufi/integrationninjas:latest
-        
+        run: docker pull younesseelyoussoufi/integrationninjas:latest 
       - name: Delete old container
         run: docker rm -f nodejs-app-container
       - name: Run docker container
