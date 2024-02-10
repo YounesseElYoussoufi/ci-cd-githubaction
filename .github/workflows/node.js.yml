@@ -20,7 +20,7 @@ jobs:
         run: docker build -t integrationninjas/nodejs-app .
       - name: Publish image to docker hub
         run: docker push integrationninjas/nodejs-app:latest
-        
+      
   deploy:
     needs: build
     runs-on: [aws-ece]
