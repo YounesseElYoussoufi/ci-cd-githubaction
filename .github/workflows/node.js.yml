@@ -18,6 +18,8 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} 
       - name: Build docker image
         run: docker build -t integrationninjas/nodejs-app .
+      - name : add tag 
+        run :  docker tag integrationninjas/nodejs-app:latest  younesseelyoussoufi/integrationninjas:latest
       - name: Publish image to docker hub
         run: docker push  younesseelyoussoufi/integrationninjas:latest
       
