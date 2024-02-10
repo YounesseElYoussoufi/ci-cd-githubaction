@@ -1,43 +1,33 @@
-# Ce flux de travail effectuera une installation propre des dépendances de Node, les mettra en cache/les restaurera,
-# construira le code source et exécutera des tests sur différentes versions de Node
-# Pour plus d'informations, consultez : https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
 name: Node.js CI
 
 on:
   push:
     branches: [ "main" ]
-
+ 
 jobs:
 
   build:
     runs-on: [ubuntu-latest]
     steps:
-      - name: Checkout du code source
+      - name: Checkout source
         uses: actions/checkout@v3
-        
-      - name: Connexion à Docker Hub (à nouveau pour le déploiement)
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Construction de l'image Docker
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} 
+      - name: Build docker image
         run: docker build -t integrationninjas/nodejs-app .
-
-      - name: Ajout du tag à l'image Docker
-        run: docker tag integrationninjas/nodejs-app:latest younesseelyoussoufi/integrationninjas:latest
-
-      - name: Publication de l'image sur Docker Hub
-        run: docker push younesseelyoussoufi/integrationninjas:latest
-
+      - name : add tag 
+        run :  docker tag integrationninjas/nodejs-app:latest  younesseelyoussoufi/integrationninjas:latest
+      - name: Publish image to docker hub
+        run: docker push  younesseelyoussoufi/integrationninjas:latest
+      
   deploy:
     needs: build
     runs-on: [aws-ece]
     steps:
-     
-      - name: Pull de l'image depuis Docker Hub
+      - name: Pull image from docker hub
         run: docker pull younesseelyoussoufi/integrationninjas:latest 
-
-      - name: Suppression du conteneur existant
-        run: docker rm -f nodejs-app-container || true
-
-      - name: Exécution du conteneur Docker
-        run: docker run -d -p 3000:3000 --name nodejs-app-container younesseelyoussoufi/integrationninjas
+      - name: Delete old container
+        run: docker rm -f nodejs-app-container
+      - name: Run docker container
+        run: docker run -d -p 3000:3000 --name nodejs-app-container  younesseelyoussoufi/integrationninjas
