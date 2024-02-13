@@ -8,7 +8,7 @@ const Navbar = () => {
     <div className="n-wrapper">
         <div className="n-left">
        
-            <div className="n-name">Dakouky</div>
+            <div className="n-name">elm-dak</div>
             <Toggle/>
         </div>
         <div className="n-right">
