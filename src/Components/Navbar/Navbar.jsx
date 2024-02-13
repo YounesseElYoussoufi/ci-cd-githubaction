@@ -15,7 +15,7 @@ const Navbar = () => {
             <div className="n-list">
                 <ul style={{listStyleType :"none"}}>
                     <Link spy={true} to='Navbar' smooth={true} activeClass="activeClass">
-                    <li>Home</li>
+                    <li>Home11</li>
                     </Link>
                     <Link spy={true} to='Services' smooth={true} activeClass="activeClass">
                     <li>Experience</li>
